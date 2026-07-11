@@ -1,0 +1,1 @@
+[{"name": "LDI1", "r": 0, "c": 0}, {"name": "LDI2", "r": 0, "c": 1}, {"name": "ADD", "r": 0, "c": 0}, {"name": "OUTS", "r": 0, "c": 0}, {"name": "OPI1", "r": 0, "c": 0}, {"name": "ADD", "r": 0, "c": 0}, {"name": "OUTS", "r": 0, "c": 0}, {"name": "OPI2", "r": 0, "c": 0}, {"name": "JMP", "r": 0, "c": 2}]
