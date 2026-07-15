@@ -98,7 +98,7 @@ class SMPCStudio:
         self.root.configure(bg="#050505")
         self.font_name = load_custom_font()
         self.isa = [SMPCBlock(s) for s in ISA_DATA]
-        self.program, self.ram = [], [0] * 32
+        self.program, self.ram = [], [0] * 16
         self.pc, self.op1, self.op2, self.alu = 0, 0, 0, 0
         self.is_running, self.drag_idx = False, None
         self.view_mode = tk.StringVar(value="GUIDE")
@@ -175,7 +175,7 @@ class SMPCStudio:
         self.view_container.pack(fill="both", expand=True, pady=10)
         self.ram_view = tk.Frame(self.view_container, bg="#000")
         self.ram_labels = []
-        for i in range(32):
+        for i in range(16):
             r, c = divmod(i, 4);
             l = tk.Label(self.ram_view, text=f"R{i:02}: 0", bg="#000", fg="#2a2a2a", font=("Consolas", 10), width=12,
                          anchor="w")
@@ -250,7 +250,7 @@ class SMPCStudio:
         try:
             n = int(v)
             if m == 'r':
-                i.r_val = n % 32
+                i.r_val = n % 16
             else:
                 i.c_val = n % 256
             self.draw_guide()
@@ -283,7 +283,7 @@ class SMPCStudio:
     def sim_reset(self):
         self.is_running, self.pc = False, 0
         self.op1, self.op2, self.alu = 0, 0, 0
-        self.ram = [0] * 32;
+        self.ram = [0] * 16;
         self.lcd.config(text="00000", fg="#0f0")
         self.auto_btn.config(state="normal");
         self.step_btn.config(state="normal")
@@ -402,14 +402,14 @@ class SMPCStudio:
         self.guide_canv.delete("all")
         if not self.program: return
         bh, bw, gap = 12, 18, 25
-        card_h = (8 + 5 + 6) * bh + (gap * 3) + 100
+        card_h = (8 + 4 + 6) * bh + (gap * 3) + 100
         card_w = len(self.program) * (bw + 8) + 100
         self.guide_canv.configure(scrollregion=(0, 0, card_w, card_h))
         for i, instr in enumerate(self.program):
             x = 40 + i * (bw + 8)
             if h_idx == i: self.guide_canv.create_rectangle(x - 4, 10, x + bw + 4, card_h - 10, outline="#0f0", width=2)
             self.bits(x, 40, bin(instr.c_val)[2:].zfill(8), 8, bw, bh, "#1a1a1a")
-            self.bits(x, 40 + (8 * bh) + gap, bin(instr.r_val)[2:].zfill(5), 5, bw, bh, "#111")
+            self.bits(x, 40 + (8 * bh) + gap, bin(instr.r_val)[2:].zfill(4), 4, bw, bh, "#111")
             self.bits(x, 40 + (13 * bh) + (gap * 2), instr.opcode, 6, bw, bh, "#080808")
 
     def bits(self, x, y_start, bs, cnt, w, h, bg):
